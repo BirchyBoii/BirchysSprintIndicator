@@ -19,6 +19,9 @@
 		],
 		"client": [
 			"net.birchyboii.birchyhud.client.BirchysSprintIndicatorClient"
+		],
+		"modmenu": [
+			"net.birchyboii.birchyhud.client.config.ModConfigScreen"
 		]
 	},
 	"mixins": [
