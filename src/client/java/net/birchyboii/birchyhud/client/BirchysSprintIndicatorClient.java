@@ -4,10 +4,15 @@ package net.birchyboii.birchyhud.client;
 import net.birchyboii.birchyhud.BirchysSprintIndicator;
 import net.birchyboii.birchyhud.client.config.ModConfig;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.Identifier;
+import org.joml.Matrix3x2fStack;
+import org.jspecify.annotations.Nullable;
 
 public class BirchysSprintIndicatorClient implements ClientModInitializer {
 
@@ -16,7 +21,8 @@ public class BirchysSprintIndicatorClient implements ClientModInitializer {
 	public void onInitializeClient() {
 
 
-			HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT, Identifier.fromNamespaceAndPath(BirchysSprintIndicator.MOD_ID, "sprint"), (context, tickCounter) -> {
+			HudElementRegistry.attachElementBefore(VanillaHudElements.CROSSHAIR, Identifier.fromNamespaceAndPath(BirchysSprintIndicator.MOD_ID, "sprint"),
+					(context, tickCounter) -> {
 				Minecraft client = Minecraft.getInstance();
 
 				if (client.player == null || client.level == null) return;
@@ -26,6 +32,13 @@ public class BirchysSprintIndicatorClient implements ClientModInitializer {
 				boolean isPressingCtrl = client.player.input.keyPresses.sprint();
 				boolean isToggleSprint = client.options.toggleSprint().get();
 
+				double scaleFactor = client.getWindow().getGuiScale();
+				int rawX = ModConfig.INSTANCE.customX;
+				int rawY = ModConfig.INSTANCE.customY;
+
+				int x = (int) (rawX / scaleFactor);
+				int y = (int) (rawY / scaleFactor);
+
 
 				if (ModConfig.INSTANCE.enableSprintIndicators) {
 
@@ -34,6 +47,7 @@ public class BirchysSprintIndicatorClient implements ClientModInitializer {
 
 					int mainColor = ModConfig.INSTANCE.sprintIndicatorColorSprinting;
 					int secondaryColor = 0xFFFFFFFF;;
+					float scale = ModConfig.INSTANCE.fontSize;
 
 					if (isSprinting) {
 						if (isToggleSprint && isPressingCtrl) {
@@ -52,13 +66,28 @@ public class BirchysSprintIndicatorClient implements ClientModInitializer {
 					}
 
 
-					context.drawString(client.font, mainMessage, 10, 10, mainColor, true);
-					context.drawString(client.font, displayMessage, 10, 10 + client.font.lineHeight, secondaryColor, true);
+					drawStringWithCustomFontSize(context, client.font, mainMessage,
+							x, y, mainColor, true, scale);
+					drawStringWithCustomFontSize(context, client.font, displayMessage,
+							x,y + client.font.lineHeight, secondaryColor, true, scale);
 				}
 			});
 
 
 		ModConfig.load();
+	}
+
+	public static void drawStringWithCustomFontSize(GuiGraphics graphics, Font font, @Nullable String text,
+													int x, int y, int color, boolean drawShadow, float scale) {
+			Matrix3x2fStack matrices = graphics.pose();
+
+			matrices.pushMatrix();
+			matrices.scale(scale);
+
+			graphics.drawString(font, text, x, y, color, drawShadow);
+
+			matrices.popMatrix();
+
 	}
 
 }
