@@ -2,15 +2,13 @@ package net.birchyboii.birchyhud.client.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.birchyboii.birchyhud.BirchysSprintIndicator;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.function.IntSupplier;
 
 public class ModConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -60,7 +58,7 @@ public class ModConfig {
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             GSON.toJson(INSTANCE, writer);
         } catch (IOException e) {
-            e.printStackTrace();
+            BirchysSprintIndicator.LOGGER.error("Failed to save configuration file!", e);
         }
     }
 
@@ -69,7 +67,7 @@ public class ModConfig {
             try (FileReader reader = new FileReader(CONFIG_FILE)) {
                 INSTANCE = GSON.fromJson(reader, ModConfig.class);
             } catch (IOException e) {
-                e.printStackTrace();
+                BirchysSprintIndicator.LOGGER.error("Failed to load configuration file!", e);
             }
         } else {
             save();
@@ -77,45 +75,3 @@ public class ModConfig {
     }
 }
 
-enum SprintIndicatorPositionsOption {
-    TOP_LEFT(
-            () -> 10,
-            () -> 10
-    ),
-    TOP_RIGHT(
-            () -> Minecraft.getInstance().getWindow().getGuiScaledWidth() - 10,
-            () -> 10
-    ),
-    BOTTOM_RIGHT(
-            () -> Minecraft.getInstance().getWindow().getGuiScaledWidth() - 10,
-            () -> Minecraft.getInstance().getWindow().getGuiScaledHeight() - 10
-    ),
-    BOTTOM_LEFT(
-            () -> 10,
-            () -> Minecraft.getInstance().getWindow().getGuiScaledHeight() - 10
-    ),
-    CENTER(
-            () -> Minecraft.getInstance().getWindow().getGuiScaledWidth() / 2,
-            () -> Minecraft.getInstance().getWindow().getGuiScaledHeight() / 2
-    ),
-    CUSTOM(
-            () -> -1,
-            () -> -1
-    );
-
-    private final IntSupplier xSupplier;
-    private final IntSupplier ySupplier;
-
-    SprintIndicatorPositionsOption(IntSupplier xSupplier, IntSupplier ySupplier) {
-        this.xSupplier = xSupplier;
-        this.ySupplier = ySupplier;
-    }
-
-    public int getX() {
-        return xSupplier.getAsInt();
-    }
-
-    public int getY() {
-        return ySupplier.getAsInt();
-    }
-}

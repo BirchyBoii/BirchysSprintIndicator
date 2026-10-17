@@ -3,14 +3,15 @@ package net.birchyboii.birchyhud.client;
 
 import net.birchyboii.birchyhud.BirchysSprintIndicator;
 import net.birchyboii.birchyhud.client.config.ModConfig;
+import net.birchyboii.birchyhud.client.config.SprintIndicatorPositionsOption;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import org.joml.Matrix3x2fStack;
 import org.jspecify.annotations.Nullable;
 
@@ -33,8 +34,8 @@ public class BirchysSprintIndicatorClient implements ClientModInitializer {
 				boolean isToggleSprint = client.options.toggleSprint().get();
 
 				double scaleFactor = client.getWindow().getGuiScale();
-				int rawX = ModConfig.INSTANCE.customX;
-				int rawY = ModConfig.INSTANCE.customY;
+				int rawX = ModConfig.INSTANCE.getX();
+				int rawY = ModConfig.INSTANCE.getY();
 
 				int x = (int) (rawX / scaleFactor);
 				int y = (int) (rawY / scaleFactor);
@@ -45,9 +46,11 @@ public class BirchysSprintIndicatorClient implements ClientModInitializer {
 					String mainMessage = isSprinting ? ModConfig.INSTANCE.sprintIndicatorTextSprinting : "";
 					String displayMessage = ModConfig.INSTANCE.sprintIndicatorTextNotSprinting;
 
+
 					int mainColor = ModConfig.INSTANCE.sprintIndicatorColorSprinting;
-					int secondaryColor = 0xFFFFFFFF;;
+					int secondaryColor = 0xFFFFFFFF;
 					float scale = ModConfig.INSTANCE.fontSize;
+
 
 					if (isSprinting) {
 						if (isToggleSprint && isPressingCtrl) {
@@ -64,7 +67,18 @@ public class BirchysSprintIndicatorClient implements ClientModInitializer {
 							secondaryColor = ModConfig.INSTANCE.sprintIndicatorColorSprintingKeyNotHeld;
 						}
 					}
+					int messageWidth = Mth.absMax(client.font.width(mainMessage), client.font.width(displayMessage));
 
+					if (ModConfig.INSTANCE.sprintIndicatorPositionsOption == SprintIndicatorPositionsOption.TOP_RIGHT ||
+							ModConfig.INSTANCE.sprintIndicatorPositionsOption == SprintIndicatorPositionsOption.BOTTOM_RIGHT) {
+						x -= messageWidth;
+					} if (ModConfig.INSTANCE.sprintIndicatorPositionsOption == SprintIndicatorPositionsOption.BOTTOM_LEFT ||
+							ModConfig.INSTANCE.sprintIndicatorPositionsOption == SprintIndicatorPositionsOption.BOTTOM_RIGHT) {
+						y -= client.font.lineHeight * 2;
+					} if (ModConfig.INSTANCE.sprintIndicatorPositionsOption == SprintIndicatorPositionsOption.CENTER) {
+						x -= (messageWidth / 2);
+						y -= (client.font.lineHeight / 2) - client.font.lineHeight;
+					}
 
 					drawStringWithCustomFontSize(context, client.font, mainMessage,
 							x, y, mainColor, true, scale);
@@ -89,5 +103,6 @@ public class BirchysSprintIndicatorClient implements ClientModInitializer {
 			matrices.popMatrix();
 
 	}
+
 
 }

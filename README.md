@@ -1,9 +1,24 @@
-# Birchy&#39;s HUD Utils
+# Birchy's Sprint Indicators
 
-## Setup
+**Minecraft Version:** 1.21.11  
+**Loader:** Fabric  
+**License:** MIT
 
-For setup instructions, please see the [Fabric Documentation page](https://docs.fabricmc.net/develop/getting-started/creating-a-project#setting-up) related to the IDE that you are using.
+---
 
-## License
+## 📖 Overview
+A Quick, Simple, and Customizable Sprint Indicators Mod
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+## ✨ Features
+* **Customizable Text**
+* **Customizable Colors**
+* **Customizable Position**
+* **Customizable Font Size**
+
+## 🤝 Requirements
+* Fabric API
+* Cloth Config API
+* Mod Menu
+
+## 🐛 Bug Reports & Feedback
+Found a bug? Open an issue on the [GitHub Issues Page].
