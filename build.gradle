@@ -71,6 +71,8 @@ jar {
 	def projectName = project.name
 	inputs.property "projectName", projectName
 
+	archiveFileName.set("birchyhud-${project.version}+26.1.2+fabric.jar")
+
 	from("LICENSE") {
 		rename { "${it}_$projectName"}
 	}
