@@ -3,17 +3,16 @@
 	"id": "birchyhud",
 	"version": "${version}",
 	"name": "Birchy's Sprint Indicator",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Sprint Indicator By BirchyBoii",
 	"authors": [
-		"Me!"
+		"BirchyBoii"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/BirchyBoii/BirchysSprintIndicator"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/birchyhud/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"main": [
 			"net.birchyboii.birchyhud.BirchysSprintIndicator"
@@ -35,7 +34,9 @@
 	"depends": {
 		"fabricloader": ">=0.19.5",
 		"minecraft": "~26.1.2",
-		"java": ">=25",
-		"fabric-api": "*"
+		"java": ">=21",
+		"fabric-api": "*",
+		"cloth-config": "*",
+		"modmenu": "*"
 	}
 }
