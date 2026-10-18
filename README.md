@@ -1,6 +1,6 @@
 # Birchy's Sprint Indicators
 
-**Minecraft Version:** 1.21.11  
+**Minecraft Version:** 26.1.2 
 **Loader:** Fabric  
 **License:** MIT
 
