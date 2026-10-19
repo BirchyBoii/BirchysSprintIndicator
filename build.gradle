@@ -37,8 +37,8 @@ dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	implementation "me.shedaniel.cloth:cloth-config-fabric:26.2.155"
-	implementation "maven.modrinth:mOgUt4GM:iRo7AZXf"
+	implementation "me.shedaniel.cloth:cloth-config-fabric:26.3.159"
+	implementation "maven.modrinth:mOgUt4GM:kyy7dbrZ"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
