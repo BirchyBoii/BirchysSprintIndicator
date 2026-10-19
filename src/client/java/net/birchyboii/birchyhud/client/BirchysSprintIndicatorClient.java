@@ -26,7 +26,6 @@ public class BirchysSprintIndicatorClient implements ClientModInitializer {
 					Minecraft client = Minecraft.getInstance();
 
 					if (client.player == null || client.level == null) return;
-					if (client.options.hideGui) return;
 
 					boolean isSprinting = client.player.isSprinting();
 					boolean isPressingCtrl = client.player.input.keyPresses.sprint();
